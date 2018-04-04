@@ -9,7 +9,7 @@ import android.widget.EditText;
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class FClearEditText extends FDrawableEditText implements FTagEditText.TagView
+public class FClearEditText extends FDrawableEditText implements FStateEditText.StateChangeCallback
 {
     public FClearEditText(Context context)
     {
@@ -33,7 +33,7 @@ public class FClearEditText extends FDrawableEditText implements FTagEditText.Ta
 
     private void init()
     {
-        addTagView(this);
+        addStateChangeCallback(this);
 
         setDrawableClear(getResources().getDrawable(R.drawable.lib_input_selector_edit_clear));
 
@@ -49,11 +49,11 @@ public class FClearEditText extends FDrawableEditText implements FTagEditText.Ta
     public void setDrawableClear(Drawable drawableClear)
     {
         mDrawableClear = drawableClear;
-        updateTagViewState(this);
+        onStateChanged(ChangedType.Refresh, this);
     }
 
     @Override
-    public void updateTagViewState(EditText editText)
+    public void onStateChanged(ChangedType type, EditText editText)
     {
         Drawable drawable = null;
 

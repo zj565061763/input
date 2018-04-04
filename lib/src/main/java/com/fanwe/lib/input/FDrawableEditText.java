@@ -12,7 +12,7 @@ import com.fanwe.lib.input.utils.DrawableConfig;
  * Created by zhengjun on 2018/4/4.
  */
 
-public class FDrawableEditText extends FTagEditText
+public class FDrawableEditText extends FStateEditText
 {
     public FDrawableEditText(Context context)
     {

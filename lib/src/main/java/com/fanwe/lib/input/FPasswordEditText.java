@@ -10,7 +10,7 @@ import android.widget.EditText;
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class FPasswordEditText extends FDrawableEditText implements FTagEditText.TagView
+public class FPasswordEditText extends FDrawableEditText implements FStateEditText.StateChangeCallback
 {
     public FPasswordEditText(Context context)
     {
@@ -42,7 +42,7 @@ public class FPasswordEditText extends FDrawableEditText implements FTagEditText
 
     private void init()
     {
-        addTagView(this);
+        addStateChangeCallback(this);
 
         setDrawablePasswordVisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_visible));
         setDrawablePasswordInvisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_invisible));
@@ -61,7 +61,7 @@ public class FPasswordEditText extends FDrawableEditText implements FTagEditText
     public void setDrawablePasswordVisible(Drawable drawable)
     {
         mDrawablePasswordVisible = drawable;
-        updateTagViewState(this);
+        onStateChanged(ChangedType.Refresh, this);
     }
 
     /**
@@ -72,11 +72,11 @@ public class FPasswordEditText extends FDrawableEditText implements FTagEditText
     public void setDrawablePasswordInvisible(Drawable drawable)
     {
         mDrawablePasswordInvisible = drawable;
-        updateTagViewState(this);
+        onStateChanged(ChangedType.Refresh, this);
     }
 
     @Override
-    public void updateTagViewState(EditText editText)
+    public void onStateChanged(ChangedType type, EditText editText)
     {
         Drawable drawable = null;
 
@@ -104,7 +104,7 @@ public class FPasswordEditText extends FDrawableEditText implements FTagEditText
 
         mIsPasswordVisible = !mIsPasswordVisible;
 
-        updateTagViewState(this);
+        onStateChanged(ChangedType.Refresh, this);
         updateInputType();
     }
 
