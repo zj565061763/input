@@ -4,15 +4,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.fanwe.lib.input.FClearEditText
-        android:id="@+id/et_clear"
+    <com.fanwe.lib.input.FStateEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content">
 
-    <com.fanwe.lib.input.FPasswordEditText
-        android:id="@+id/et_password"
+        <com.fanwe.lib.input.FStateEditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingRight="36dp" />
+
+        <com.fanwe.lib.input.stateview.EditTextClearImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp" />
+
+    </com.fanwe.lib.input.FStateEditTextContainer>
+
+    <com.fanwe.lib.input.FStateEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content">
+
+        <com.fanwe.lib.input.FStateEditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingRight="40dp" />
+
+        <com.fanwe.lib.input.stateview.EditTextPasswordImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp" />
+
+    </com.fanwe.lib.input.FStateEditTextContainer>
 
     <com.fanwe.lib.input.FStateEditTextContainer
         android:layout_width="match_parent"
@@ -26,28 +50,24 @@
             android:orientation="horizontal">
 
             <com.fanwe.lib.input.FStateEditText
-                android:id="@+id/et_state"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null" />
 
             <com.fanwe.lib.input.stateview.EditTextClearImageView
-                android:id="@+id/view_et_state_clear"
                 android:layout_width="16dp"
-                android:layout_height="16dp" />
+                android:layout_height="16dp"
+                android:layout_marginRight="10dp" />
 
             <com.fanwe.lib.input.stateview.EditTextPasswordImageView
-                android:id="@+id/view_et_state_password"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
 
         </LinearLayout>
 
         <com.fanwe.lib.input.stateview.EditTextFocusImageView
-            android:id="@+id/view_et_state_underline"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/colorAccent" />

@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FStateEditTextContainer extends LinearLayout
+public class FStateEditTextContainer extends FrameLayout
 {
     public FStateEditTextContainer(Context context)
     {
@@ -27,14 +27,13 @@ public class FStateEditTextContainer extends LinearLayout
     }
 
     private FStateEditText mEditText;
-    private boolean mHasFinishInflate;
 
     @Override
     public void onViewAdded(View child)
     {
         super.onViewAdded(child);
 
-        if (mHasFinishInflate)
+        if (mEditText != null)
         {
             final List<View> list = getAllViewsFrom(child);
             addOrRemoveStateView(list, true);
@@ -46,8 +45,11 @@ public class FStateEditTextContainer extends LinearLayout
     {
         super.onViewRemoved(child);
 
-        final List<View> list = getAllViewsFrom(child);
-        addOrRemoveStateView(list, false);
+        if (mEditText != null)
+        {
+            final List<View> list = getAllViewsFrom(child);
+            addOrRemoveStateView(list, false);
+        }
     }
 
     @Override
@@ -68,13 +70,11 @@ public class FStateEditTextContainer extends LinearLayout
 
         if (mEditText == null)
         {
-            throw new RuntimeException(FStateEditText.class.getName() + " not found in " + this);
+            throw new RuntimeException(FStateEditText.class.getSimpleName() + " not found in " + this);
         } else
         {
             addOrRemoveStateView(list, true);
         }
-
-        mHasFinishInflate = true;
     }
 
     private void addOrRemoveStateView(List<View> list, boolean add)
