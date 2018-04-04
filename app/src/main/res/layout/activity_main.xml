@@ -6,12 +6,11 @@
 
     <com.fanwe.lib.input.FStateEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp">
 
         <com.fanwe.lib.input.FStateEditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingRight="36dp" />
+            android:layout_height="match_parent" />
 
         <com.fanwe.lib.input.stateview.EditTextClearImageView
             android:layout_width="16dp"
@@ -23,12 +22,11 @@
 
     <com.fanwe.lib.input.FStateEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp">
 
         <com.fanwe.lib.input.FStateEditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingRight="40dp" />
+            android:layout_height="match_parent" />
 
         <com.fanwe.lib.input.stateview.EditTextPasswordImageView
             android:layout_width="20dp"
@@ -40,12 +38,11 @@
 
     <com.fanwe.lib.input.FStateEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="50dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -70,6 +67,7 @@
         <com.fanwe.lib.input.stateview.EditTextFocusImageView
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_gravity="bottom"
             android:background="@color/colorAccent" />
 
     </com.fanwe.lib.input.FStateEditTextContainer>
