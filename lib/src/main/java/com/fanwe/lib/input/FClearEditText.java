@@ -35,7 +35,7 @@ public class FClearEditText extends FDrawableEditText implements FTagEditText.Ta
     {
         addTagView(this);
 
-        setDrawableClear(getResources().getDrawable(R.drawable.lib_views_selector_edit_clear));
+        setDrawableClear(getResources().getDrawable(R.drawable.lib_input_selector_edit_clear));
 
         final float scale = getResources().getDisplayMetrics().density;
         getDrawableConfigRight().setWidth((int) (16 * scale));

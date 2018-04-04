@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
          * 设置清空内容图片
          * 默认图片为R.drawable.lib_views_selector_edit_clear，支持在主项目中定义该图片来覆盖库中的图片
          */
-        et_clear.setDrawableClear(getResources().getDrawable(R.drawable.lib_views_selector_edit_clear));
+        et_clear.setDrawableClear(getResources().getDrawable(R.drawable.lib_input_selector_edit_clear));
 
         /**
          * 设置密码可见状态的图片
