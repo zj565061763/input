@@ -34,26 +34,26 @@ public class FStateEditText extends EditText implements TextWatcher
         init();
     }
 
-    private final List<StateChangeCallback> mCallbackHolder = new ArrayList<>();
+    private final List<StateView> mStateViewHolder = new ArrayList<>();
 
     private void init()
     {
         addTextChangedListener(this);
     }
 
-    public final void addStateChangeCallback(StateChangeCallback callback)
+    public final void addStateView(StateView stateView)
     {
-        if (callback == null || mCallbackHolder.contains(callback))
+        if (stateView == null || mStateViewHolder.contains(stateView))
         {
             return;
         }
-        mCallbackHolder.add(callback);
-        callback.onStateChanged(ChangedType.Refresh, this);
+        mStateViewHolder.add(stateView);
+        stateView.onStateChanged(ChangType.Refresh, this);
     }
 
-    public final void removeStateChangeCallback(StateChangeCallback callback)
+    public final void removeStateView(StateView stateView)
     {
-        mCallbackHolder.remove(callback);
+        mStateViewHolder.remove(stateView);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FStateEditText extends EditText implements TextWatcher
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count)
     {
-        notifyStateChanged(ChangedType.Text);
+        notifyStateChanged(ChangType.Text);
     }
 
     @Override
@@ -78,14 +78,14 @@ public class FStateEditText extends EditText implements TextWatcher
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect)
     {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
-        notifyStateChanged(ChangedType.Focus);
+        notifyStateChanged(ChangType.Focus);
     }
 
     @Override
     public void setEnabled(boolean enabled)
     {
         super.setEnabled(enabled);
-        notifyStateChanged(ChangedType.Enable);
+        notifyStateChanged(ChangType.Enable);
     }
 
     @Override
@@ -94,29 +94,29 @@ public class FStateEditText extends EditText implements TextWatcher
         super.onVisibilityChanged(changedView, visibility);
         if (changedView == this)
         {
-            notifyStateChanged(ChangedType.Visibility);
+            notifyStateChanged(ChangType.Visibility);
         }
     }
 
-    private void notifyStateChanged(ChangedType type)
+    private void notifyStateChanged(ChangType type)
     {
-        if (mCallbackHolder == null || mCallbackHolder.isEmpty())
+        if (mStateViewHolder == null || mStateViewHolder.isEmpty())
         {
             return;
         }
 
-        for (StateChangeCallback item : mCallbackHolder)
+        for (StateView item : mStateViewHolder)
         {
             item.onStateChanged(type, this);
         }
     }
 
-    public interface StateChangeCallback
+    public interface StateView
     {
-        void onStateChanged(ChangedType type, EditText editText);
+        void onStateChanged(ChangType type, EditText editText);
     }
 
-    public enum ChangedType
+    public enum ChangType
     {
         /**
          * 用于通知刷新

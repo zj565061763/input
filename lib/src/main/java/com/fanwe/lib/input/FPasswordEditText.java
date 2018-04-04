@@ -10,7 +10,7 @@ import android.widget.EditText;
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class FPasswordEditText extends FDrawableEditText implements FStateEditText.StateChangeCallback
+public class FPasswordEditText extends FDrawableEditText implements FStateEditText.StateView
 {
     public FPasswordEditText(Context context)
     {
@@ -42,7 +42,7 @@ public class FPasswordEditText extends FDrawableEditText implements FStateEditTe
 
     private void init()
     {
-        addStateChangeCallback(this);
+        addStateView(this);
 
         setDrawablePasswordVisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_visible));
         setDrawablePasswordInvisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_invisible));
@@ -61,7 +61,7 @@ public class FPasswordEditText extends FDrawableEditText implements FStateEditTe
     public void setDrawablePasswordVisible(Drawable drawable)
     {
         mDrawablePasswordVisible = drawable;
-        onStateChanged(ChangedType.Refresh, this);
+        onStateChanged(ChangType.Refresh, this);
     }
 
     /**
@@ -72,11 +72,11 @@ public class FPasswordEditText extends FDrawableEditText implements FStateEditTe
     public void setDrawablePasswordInvisible(Drawable drawable)
     {
         mDrawablePasswordInvisible = drawable;
-        onStateChanged(ChangedType.Refresh, this);
+        onStateChanged(ChangType.Refresh, this);
     }
 
     @Override
-    public void onStateChanged(ChangedType type, EditText editText)
+    public void onStateChanged(ChangType type, EditText editText)
     {
         Drawable drawable = null;
 
@@ -104,7 +104,7 @@ public class FPasswordEditText extends FDrawableEditText implements FStateEditTe
 
         mIsPasswordVisible = !mIsPasswordVisible;
 
-        onStateChanged(ChangedType.Refresh, this);
+        onStateChanged(ChangType.Refresh, this);
         updateInputType();
     }
 
