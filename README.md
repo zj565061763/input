@@ -4,7 +4,6 @@
 ## FClearEditText和FPasswordEditText
 ![](https://thumbsnap.com/i/2M1Yl8Vm.gif?0404)
 
-* xml布局
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +24,6 @@
 </LinearLayout>
 ```
 
-* java
 ```java
 public class MainActivity extends AppCompatActivity
 {
