@@ -30,8 +30,6 @@ public class FPasswordEditText extends FDrawableEditText implements FEditText.St
         init();
     }
 
-    private static final int TYPE_TEXT_PASSWORD = 129;
-
     /**
      * 是否显示密码
      */
@@ -75,15 +73,17 @@ public class FPasswordEditText extends FDrawableEditText implements FEditText.St
         onStateChanged(ChangType.Refresh, this);
     }
 
+    public boolean isPasswordVisible()
+    {
+        return mIsPasswordVisible;
+    }
+
     @Override
     public void onStateChanged(ChangType type, EditText editText)
     {
         Drawable drawable = null;
 
-        if (getVisibility() == View.VISIBLE
-                && isFocused()
-                && isEnabled()
-                && getText().length() > 0)
+        if (getVisibility() == View.VISIBLE)
         {
             if (mIsPasswordVisible)
             {
@@ -113,10 +113,10 @@ public class FPasswordEditText extends FDrawableEditText implements FEditText.St
         final int selection = getSelectionEnd();
         if (mIsPasswordVisible)
         {
-            setInputType(InputType.TYPE_CLASS_TEXT);
+            setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         } else
         {
-            setInputType(TYPE_TEXT_PASSWORD);
+            setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         }
         setSelection(selection);
     }
