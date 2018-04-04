@@ -5,14 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.fanwe.lib.input.FClearEditText;
 import com.fanwe.lib.input.FPasswordEditText;
-import com.fanwe.lib.input.FStateEditText;
 
 public class MainActivity extends AppCompatActivity
 {
     private FClearEditText et_clear;
     private FPasswordEditText et_password;
-
-    private FStateEditText et_state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -21,7 +18,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         et_clear = findViewById(R.id.et_clear);
         et_password = findViewById(R.id.et_password);
-        et_state = findViewById(R.id.et_state);
 
         /**
          * 设置清空内容图片
@@ -39,9 +35,5 @@ public class MainActivity extends AppCompatActivity
          * 默认图片为R.drawable.lib_input_ic_edit_password_invisible，支持在主项目中定义该图片来覆盖库中的图片
          */
         et_password.setDrawablePasswordInvisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_invisible));
-
-        et_state.addStateView((FStateEditText.StateView) findViewById(R.id.view_et_state_clear));
-        et_state.addStateView((FStateEditText.StateView) findViewById(R.id.view_et_state_password));
-        et_state.addStateView((FStateEditText.StateView) findViewById(R.id.view_et_state_underline));
     }
 }

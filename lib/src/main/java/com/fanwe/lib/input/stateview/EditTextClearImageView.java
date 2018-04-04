@@ -59,6 +59,11 @@ public class EditTextClearImageView extends ImageView implements FStateEditText.
         });
     }
 
+    public final EditText getEditText()
+    {
+        return mEditText;
+    }
+
     @Override
     public void setOnClickListener(View.OnClickListener l)
     {

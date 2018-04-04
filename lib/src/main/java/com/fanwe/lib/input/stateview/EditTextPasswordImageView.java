@@ -75,6 +75,11 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
         }
     }
 
+    public final EditText getEditText()
+    {
+        return mEditText;
+    }
+
     @Override
     public void setOnClickListener(View.OnClickListener l)
     {

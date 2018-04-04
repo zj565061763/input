@@ -30,9 +30,16 @@ public class EditTextFocusImageView extends ImageView implements FStateEditText.
     @Override
     public void onStateChanged(FStateEditText.ChangType type, EditText editText)
     {
-        if (type == FStateEditText.ChangType.Focus)
+        switch (type)
         {
-            setSelected(editText.isFocused());
+            case Visibility:
+                setVisibility(editText.getVisibility());
+                break;
+            case Focus:
+                setSelected(editText.isFocused());
+                break;
+            default:
+                break;
         }
     }
 }
