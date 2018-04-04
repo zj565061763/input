@@ -10,7 +10,7 @@ import android.widget.EditText;
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class FPasswordEditText extends FDrawableEditText implements FStateEditText.StateView
+public class FPasswordEditText extends FDrawableEditText implements FEditText.StateView
 {
     public FPasswordEditText(Context context)
     {

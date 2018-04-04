@@ -9,24 +9,24 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FStateEditTextContainer extends FrameLayout
+public class FEditTextContainer extends FrameLayout
 {
-    public FStateEditTextContainer(Context context)
+    public FEditTextContainer(Context context)
     {
         super(context);
     }
 
-    public FStateEditTextContainer(Context context, AttributeSet attrs)
+    public FEditTextContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
-    public FStateEditTextContainer(Context context, AttributeSet attrs, int defStyleAttr)
+    public FEditTextContainer(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
     }
 
-    private FStateEditText mEditText;
+    private FEditText mEditText;
 
     @Override
     public void onViewAdded(View child)
@@ -61,16 +61,16 @@ public class FStateEditTextContainer extends FrameLayout
         list.remove(this);
         for (View item : list)
         {
-            if (item instanceof FStateEditText)
+            if (item instanceof FEditText)
             {
-                mEditText = (FStateEditText) item;
+                mEditText = (FEditText) item;
                 break;
             }
         }
 
         if (mEditText == null)
         {
-            throw new RuntimeException(FStateEditText.class.getSimpleName() + " not found in " + this);
+            throw new RuntimeException(FEditText.class.getSimpleName() + " not found in " + this);
         } else
         {
             addOrRemoveStateView(list, true);
@@ -81,12 +81,12 @@ public class FStateEditTextContainer extends FrameLayout
     {
         for (View item : list)
         {
-            if (item instanceof FStateEditTextContainer)
+            if (item instanceof FEditTextContainer)
             {
                 throw new RuntimeException(getClass().getSimpleName() + " is found in " + this);
-            } else if (item instanceof FStateEditText.StateView)
+            } else if (item instanceof FEditText.StateView)
             {
-                final FStateEditText.StateView stateView = (FStateEditText.StateView) item;
+                final FEditText.StateView stateView = (FEditText.StateView) item;
                 if (add)
                 {
                     mEditText.addStateView(stateView);

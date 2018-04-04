@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fanwe.lib.input.FStateEditText;
+import com.fanwe.lib.input.FEditText;
 import com.fanwe.lib.input.R;
 
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class EditTextClearImageView extends ImageView implements FStateEditText.StateView
+public class EditTextClearImageView extends ImageView implements FEditText.StateView
 {
     public EditTextClearImageView(Context context)
     {
@@ -71,7 +71,7 @@ public class EditTextClearImageView extends ImageView implements FStateEditText.
     }
 
     @Override
-    public void onStateChanged(FStateEditText.ChangType type, EditText editText)
+    public void onStateChanged(FEditText.ChangType type, EditText editText)
     {
         mEditText = editText;
 

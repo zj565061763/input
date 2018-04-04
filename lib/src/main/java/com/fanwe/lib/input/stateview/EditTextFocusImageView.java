@@ -5,12 +5,12 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fanwe.lib.input.FStateEditText;
+import com.fanwe.lib.input.FEditText;
 
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class EditTextFocusImageView extends ImageView implements FStateEditText.StateView
+public class EditTextFocusImageView extends ImageView implements FEditText.StateView
 {
     public EditTextFocusImageView(Context context)
     {
@@ -28,7 +28,7 @@ public class EditTextFocusImageView extends ImageView implements FStateEditText.
     }
 
     @Override
-    public void onStateChanged(FStateEditText.ChangType type, EditText editText)
+    public void onStateChanged(FEditText.ChangType type, EditText editText)
     {
         switch (type)
         {

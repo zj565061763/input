@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.fanwe.lib.input.FStateEditText;
+import com.fanwe.lib.input.FEditText;
 import com.fanwe.lib.input.R;
 
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class EditTextPasswordImageView extends ImageView implements FStateEditText.StateView
+public class EditTextPasswordImageView extends ImageView implements FEditText.StateView
 {
     public EditTextPasswordImageView(Context context)
     {
@@ -87,7 +87,7 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
     }
 
     @Override
-    public void onStateChanged(FStateEditText.ChangType type, EditText editText)
+    public void onStateChanged(FEditText.ChangType type, EditText editText)
     {
         if (mEditText != editText)
         {
@@ -95,7 +95,7 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
             updateInputType();
         }
 
-        if (type == FStateEditText.ChangType.Visibility)
+        if (type == FEditText.ChangType.Visibility)
         {
             if (editText.getVisibility() == View.VISIBLE)
             {

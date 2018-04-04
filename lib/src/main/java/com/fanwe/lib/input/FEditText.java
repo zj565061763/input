@@ -14,21 +14,21 @@ import java.util.List;
 /**
  * Created by zhengjun on 2018/4/2.
  */
-public class FStateEditText extends EditText implements TextWatcher
+public class FEditText extends EditText implements TextWatcher
 {
-    public FStateEditText(Context context)
+    public FEditText(Context context)
     {
         super(context);
         init();
     }
 
-    public FStateEditText(Context context, AttributeSet attrs)
+    public FEditText(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
-    public FStateEditText(Context context, AttributeSet attrs, int defStyleAttr)
+    public FEditText(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
         init();
