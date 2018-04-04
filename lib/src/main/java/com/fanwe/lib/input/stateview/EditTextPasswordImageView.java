@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.fanwe.lib.input.FStateEditText;
+import com.fanwe.lib.input.R;
 
 /**
  * Created by zhengjun on 2018/4/4.
@@ -37,23 +38,18 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
 
     private void init()
     {
+        if (getDrawable() == null)
+        {
+            setImageResource(R.drawable.lib_input_selector_edit_password);
+        }
+
         super.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 setSelected(!isSelected());
-
-                if (mEditText != null)
-                {
-                    if (isSelected())
-                    {
-                        mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    } else
-                    {
-                        mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    }
-                }
+                updateInputType();
 
                 if (mOnClickListener != null)
                 {
@@ -61,6 +57,22 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
                 }
             }
         });
+    }
+
+    private void updateInputType()
+    {
+        if (mEditText != null)
+        {
+            final int selection = mEditText.getSelectionEnd();
+            if (isSelected())
+            {
+                mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            } else
+            {
+                mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+            mEditText.setSelection(selection);
+        }
     }
 
     @Override
@@ -72,7 +84,11 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
     @Override
     public void onStateChanged(FStateEditText.ChangType type, EditText editText)
     {
-        mEditText = editText;
+        if (mEditText == null)
+        {
+            mEditText = editText;
+            updateInputType();
+        }
 
         if (type == FStateEditText.ChangType.Visibility)
         {

@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.fanwe.lib.input.FStateEditText;
+import com.fanwe.lib.input.R;
 
 /**
  * Created by zhengjun on 2018/4/4.
@@ -36,6 +37,11 @@ public class EditTextClearImageView extends ImageView implements FStateEditText.
 
     private void init()
     {
+        if (getDrawable() == null)
+        {
+            setImageResource(R.drawable.lib_input_selector_edit_clear);
+        }
+
         super.setOnClickListener(new View.OnClickListener()
         {
             @Override
