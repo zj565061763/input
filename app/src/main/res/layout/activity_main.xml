@@ -41,7 +41,7 @@
 
     </LinearLayout>
 
-    <com.fanwe.lib.input.stateview.EditTextFocusView
+    <com.fanwe.lib.input.stateview.EditTextFocusImageView
         android:id="@+id/view_et_state_underline"
         android:layout_width="match_parent"
         android:layout_height="1px"

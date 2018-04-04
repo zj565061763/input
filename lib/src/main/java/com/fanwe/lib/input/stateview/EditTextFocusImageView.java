@@ -10,19 +10,19 @@ import com.fanwe.lib.input.FStateEditText;
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class EditTextFocusView extends ImageView implements FStateEditText.StateView
+public class EditTextFocusImageView extends ImageView implements FStateEditText.StateView
 {
-    public EditTextFocusView(Context context)
+    public EditTextFocusImageView(Context context)
     {
         super(context);
     }
 
-    public EditTextFocusView(Context context, AttributeSet attrs)
+    public EditTextFocusImageView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
-    public EditTextFocusView(Context context, AttributeSet attrs, int defStyleAttr)
+    public EditTextFocusImageView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
     }
