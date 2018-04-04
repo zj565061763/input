@@ -2,15 +2,15 @@ package com.fanwe.lib.input.stateview;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.fanwe.lib.input.FStateEditText;
 
 /**
  * Created by zhengjun on 2018/4/4.
  */
-public class EditTextFocusView extends View implements FStateEditText.StateView
+public class EditTextFocusView extends ImageView implements FStateEditText.StateView
 {
     public EditTextFocusView(Context context)
     {
