@@ -5,10 +5,12 @@
     android:orientation="vertical">
 
     <com.fanwe.lib.input.FClearEditText
+        android:id="@+id/et_clear"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
     <com.fanwe.lib.input.FPasswordEditText
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
