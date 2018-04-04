@@ -84,7 +84,7 @@ public class EditTextPasswordImageView extends ImageView implements FStateEditTe
     @Override
     public void onStateChanged(FStateEditText.ChangType type, EditText editText)
     {
-        if (mEditText == null)
+        if (mEditText != editText)
         {
             mEditText = editText;
             updateInputType();
