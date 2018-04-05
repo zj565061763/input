@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="editTextBackground">?android:attr/editTextBackground</item>
+        <!--<item name="editTextBackground">@drawable/selector_edit_underline</item>-->
     </style>
 
 </resources>
