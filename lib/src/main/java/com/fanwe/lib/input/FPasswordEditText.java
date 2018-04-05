@@ -40,7 +40,6 @@ public class FPasswordEditText extends FDrawableEditText implements FEditText.St
     private void init()
     {
         addStateView(this);
-
         setDrawablePasswordVisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_visible));
         setDrawablePasswordInvisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_invisible));
 

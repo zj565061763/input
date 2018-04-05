@@ -33,7 +33,6 @@ public class FClearEditText extends FDrawableEditText implements FEditText.State
     private void init()
     {
         addStateView(this);
-
         setDrawableClear(getResources().getDrawable(R.drawable.lib_input_selector_edit_clear));
 
         final float scale = getResources().getDisplayMetrics().density;
