@@ -7,13 +7,13 @@ import android.graphics.drawable.Drawable;
  */
 public class DrawableConfig
 {
-    private Drawable drawable;
-    private int width;
-    private final int[] size = new int[2];
+    private Drawable mDrawable;
+    private int mWidth;
+    private final int[] mSize = new int[2];
 
     public void updateBounds()
     {
-        if (drawable == null)
+        if (mDrawable == null)
         {
             return;
         }
@@ -22,20 +22,20 @@ public class DrawableConfig
 
         int left = 0;
         int top = 0;
-        int right = left + size[0];
-        int bottom = top + size[1];
+        int right = left + mSize[0];
+        int bottom = top + mSize[1];
 
-        drawable.setBounds(left, top, right, bottom);
+        mDrawable.setBounds(left, top, right, bottom);
     }
 
     private void scaleDrawableIfNeed()
     {
-        size[0] = drawable.getIntrinsicWidth();
-        size[1] = drawable.getIntrinsicHeight();
-        if (width > 0 && width != size[0])
+        mSize[0] = mDrawable.getIntrinsicWidth();
+        mSize[1] = mDrawable.getIntrinsicHeight();
+        if (mWidth > 0 && mWidth != mSize[0])
         {
-            size[1] = getScaledHeight(width, drawable);
-            size[0] = width;
+            mSize[1] = getScaledHeight(mWidth, mDrawable);
+            mSize[0] = mWidth;
         }
     }
 
@@ -44,25 +44,15 @@ public class DrawableConfig
         return (int) (width * drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth());
     }
 
-    public Drawable getDrawable()
-    {
-        return drawable;
-    }
-
     public void setDrawable(Drawable drawable)
     {
-        this.drawable = drawable;
+        this.mDrawable = drawable;
         updateBounds();
-    }
-
-    public int getWidth()
-    {
-        return width;
     }
 
     public void setWidth(int width)
     {
-        this.width = width;
+        this.mWidth = width;
         updateBounds();
     }
 }
