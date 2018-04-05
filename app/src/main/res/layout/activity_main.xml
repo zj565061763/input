@@ -20,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <com.fanwe.lib.input.FEditText
                 android:layout_width="0dp"
@@ -36,8 +38,7 @@
 
             <com.fanwe.lib.input.stateview.EditTextPasswordImageView
                 android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginRight="10dp" />
+                android:layout_height="18dp" />
 
         </LinearLayout>
 
