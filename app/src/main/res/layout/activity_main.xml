@@ -44,9 +44,9 @@
 
         <com.fanwe.lib.input.stateview.EditTextFocusImageView
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="1dp"
             android:layout_gravity="bottom"
-            android:background="@color/colorAccent" />
+            android:background="@drawable/selector_edit_underline" />
 
     </com.fanwe.lib.input.FEditTextContainer>
 
