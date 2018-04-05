@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.EditText;
 
 /**
@@ -83,15 +82,12 @@ public class FPasswordEditText extends FDrawableEditText implements FEditText.St
     {
         Drawable drawable = null;
 
-        if (getVisibility() == View.VISIBLE)
+        if (mIsPasswordVisible)
         {
-            if (mIsPasswordVisible)
-            {
-                drawable = mDrawablePasswordVisible;
-            } else
-            {
-                drawable = mDrawablePasswordInvisible;
-            }
+            drawable = mDrawablePasswordVisible;
+        } else
+        {
+            drawable = mDrawablePasswordInvisible;
         }
 
         setDrawableRight(drawable);

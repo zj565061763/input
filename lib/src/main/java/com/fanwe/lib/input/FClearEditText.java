@@ -3,7 +3,6 @@ package com.fanwe.lib.input;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.EditText;
 
 /**
@@ -57,10 +56,7 @@ public class FClearEditText extends FDrawableEditText implements FEditText.State
     {
         Drawable drawable = null;
 
-        if (getVisibility() == View.VISIBLE
-                && isFocused()
-                && isEnabled()
-                && getText().length() > 0)
+        if (isFocused() && isEnabled() && getText().length() > 0)
         {
             drawable = mDrawableClear;
         }
