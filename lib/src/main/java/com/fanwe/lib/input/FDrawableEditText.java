@@ -1,7 +1,6 @@
 package com.fanwe.lib.input;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -47,7 +46,6 @@ public class FDrawableEditText extends FEditText
      */
     public final void setDrawableLeft(Drawable drawableLeft)
     {
-        getDrawableConfigLeft().setBounds(drawableLeft);
         setCompoundDrawables(drawableLeft, getCompoundDrawables()[1], getCompoundDrawables()[2], getCompoundDrawables()[3]);
     }
 
@@ -58,7 +56,6 @@ public class FDrawableEditText extends FEditText
      */
     public final void setDrawableRight(Drawable drawableRight)
     {
-        getDrawableConfigRight().setBounds(drawableRight);
         setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], drawableRight, getCompoundDrawables()[3]);
     }
 
@@ -70,6 +67,15 @@ public class FDrawableEditText extends FEditText
     public final Drawable getDrawableRight()
     {
         return getCompoundDrawables()[2];
+    }
+
+    @Override
+    public void setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom)
+    {
+        getDrawableConfigLeft().setDrawable(left);
+        getDrawableConfigRight().setDrawable(right);
+
+        super.setCompoundDrawables(left, top, right, bottom);
     }
 
     public final DrawableConfig getDrawableConfigLeft()
@@ -88,14 +94,6 @@ public class FDrawableEditText extends FEditText
             mDrawableConfigRight = new DrawableConfig();
         }
         return mDrawableConfigRight;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas)
-    {
-        getDrawableConfigLeft().setBounds(getDrawableLeft());
-        getDrawableConfigRight().setBounds(getDrawableRight());
-        super.onDraw(canvas);
     }
 
     @Override
