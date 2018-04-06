@@ -5,55 +5,37 @@
 ![](https://thumbsnap.com/i/2M1Yl8Vm.gif?0404)
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fanwe.lib.input.FEditTextContainer
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="50dp">
 
-    <com.fanwe.lib.input.FClearEditText
-        android:id="@+id/et_clear"
+    <com.fanwe.lib.input.FEditText
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="match_parent" />
 
-    <com.fanwe.lib.input.FPasswordEditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+    <com.fanwe.lib.input.stateview.EditTextClearImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="10dp" />
 
-</LinearLayout>
+</com.fanwe.lib.input.FEditTextContainer>
 ```
 
-```java
-public class MainActivity extends AppCompatActivity
-{
-    private FClearEditText et_clear;
-    private FPasswordEditText et_password;
+```xml
+<com.fanwe.lib.input.FEditTextContainer
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        et_clear = findViewById(R.id.et_clear);
-        et_password = findViewById(R.id.et_password);
+    <com.fanwe.lib.input.FEditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        /**
-         * 设置清空内容图片
-         * 默认图片为R.drawable.lib_views_selector_edit_clear，支持在主项目中定义该图片来覆盖库中的图片
-         */
-        et_clear.setDrawableClear(getResources().getDrawable(R.drawable.lib_input_selector_edit_clear));
+    <com.fanwe.lib.input.stateview.EditTextPasswordImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="10dp" />
 
-        /**
-         * 设置密码可见状态的图片
-         * 默认图片为R.drawable.lib_input_ic_edit_password_visible，支持在主项目中定义该图片来覆盖库中的图片
-         */
-        et_password.setDrawablePasswordVisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_visible));
-        /**
-         * 设置密码不可见状态的图片
-         * 默认图片为R.drawable.lib_input_ic_edit_password_invisible，支持在主项目中定义该图片来覆盖库中的图片
-         */
-        et_password.setDrawablePasswordInvisible(getResources().getDrawable(R.drawable.lib_input_ic_edit_password_invisible));
-    }
-}
+</com.fanwe.lib.input.FEditTextContainer>
 ```

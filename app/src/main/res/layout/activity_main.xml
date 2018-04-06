@@ -4,13 +4,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.fanwe.lib.input.FClearEditText
+    <com.fanwe.lib.input.FEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp">
 
-    <com.fanwe.lib.input.FPasswordEditText
+        <com.fanwe.lib.input.FEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.fanwe.lib.input.stateview.EditTextClearImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp" />
+
+    </com.fanwe.lib.input.FEditTextContainer>
+
+    <com.fanwe.lib.input.FEditTextContainer
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp">
+
+        <com.fanwe.lib.input.FEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.fanwe.lib.input.stateview.EditTextPasswordImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp" />
+
+    </com.fanwe.lib.input.FEditTextContainer>
 
     <com.fanwe.lib.input.FEditTextContainer
         android:layout_width="match_parent"
