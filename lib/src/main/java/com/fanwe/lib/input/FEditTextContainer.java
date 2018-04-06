@@ -79,11 +79,6 @@ public class FEditTextContainer extends FrameLayout
 
     private void addOrRemoveStateView(List<View> list, boolean add)
     {
-        if (mEditText == null)
-        {
-            return;
-        }
-
         for (View item : list)
         {
             if (item instanceof FEditTextContainer)
