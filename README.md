@@ -2,7 +2,7 @@
 [![](https://jitpack.io/v/zj565061763/input.svg)](https://jitpack.io/#zj565061763/input)
 
 ## demo
-![](https://thumbsnap.com/i/2M1Yl8Vm.gif?0404)
+![](http://thumbsnap.com/i/mLqcXGvF.gif?0407)
 
 ```xml
 <com.fanwe.lib.input.FEditTextContainer
