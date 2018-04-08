@@ -79,3 +79,7 @@
 
 </com.fanwe.lib.input.FEditTextContainer>
 ```
+
+## 支持覆盖的图片
+* [drawable-xxhdpi](https://github.com/zj565061763/input/tree/master/lib/src/main/res/drawable-xxhdpi)
+* [drawable](https://github.com/zj565061763/input/tree/master/lib/src/main/res/drawable)
