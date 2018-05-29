@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by zhengjun on 2018/4/2.
  */
-public class FEditText extends EditText implements TextWatcher
+public class FEditText extends EditText
 {
     public FEditText(Context context)
     {
@@ -34,19 +34,37 @@ public class FEditText extends EditText implements TextWatcher
         init();
     }
 
-    private final List<StateView> mStateViewHolder = new ArrayList<>();
+    private final List<StateView> mStateViewHolder = new ArrayList<>(1);
 
     private void init()
     {
-        addTextChangedListener(this);
+        addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                notifyStateChanged(ChangType.Text);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+        });
     }
 
     public final void addStateView(StateView stateView)
     {
         if (stateView == null || mStateViewHolder.contains(stateView))
-        {
             return;
-        }
+
         mStateViewHolder.add(stateView);
         stateView.onStateChanged(ChangType.Refresh, this);
     }
@@ -54,24 +72,6 @@ public class FEditText extends EditText implements TextWatcher
     public final void removeStateView(StateView stateView)
     {
         mStateViewHolder.remove(stateView);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after)
-    {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count)
-    {
-        notifyStateChanged(ChangType.Text);
-    }
-
-    @Override
-    public void afterTextChanged(Editable s)
-    {
-
     }
 
     @Override
@@ -92,18 +92,15 @@ public class FEditText extends EditText implements TextWatcher
     protected void onVisibilityChanged(View changedView, int visibility)
     {
         super.onVisibilityChanged(changedView, visibility);
+
         if (changedView == this)
-        {
             notifyStateChanged(ChangType.Visibility);
-        }
     }
 
     private void notifyStateChanged(ChangType type)
     {
         if (mStateViewHolder == null || mStateViewHolder.isEmpty())
-        {
             return;
-        }
 
         for (StateView item : mStateViewHolder)
         {

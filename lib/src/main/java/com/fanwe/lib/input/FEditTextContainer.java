@@ -28,6 +28,14 @@ public class FEditTextContainer extends FrameLayout
 
     private FEditText mEditText;
 
+    private void setEditText(FEditText editText)
+    {
+        if (mEditText == null)
+            mEditText = editText;
+        else
+            throw new IllegalArgumentException("multi FEditText");
+    }
+
     @Override
     public void onViewAdded(View child)
     {
@@ -59,22 +67,11 @@ public class FEditTextContainer extends FrameLayout
 
         final List<View> list = getAllViewsFrom(this);
         list.remove(this);
-        for (View item : list)
-        {
-            if (item instanceof FEditText)
-            {
-                mEditText = (FEditText) item;
-                break;
-            }
-        }
 
         if (mEditText == null)
-        {
             throw new RuntimeException(FEditText.class.getSimpleName() + " not found in " + this);
-        } else
-        {
+        else
             addOrRemoveStateView(list, true);
-        }
     }
 
     private void addOrRemoveStateView(List<View> list, boolean add)
@@ -88,17 +85,14 @@ public class FEditTextContainer extends FrameLayout
             {
                 final FEditText.StateView stateView = (FEditText.StateView) item;
                 if (add)
-                {
                     mEditText.addStateView(stateView);
-                } else
-                {
+                else
                     mEditText.removeStateView(stateView);
-                }
             }
         }
     }
 
-    private static List<View> getAllViewsFrom(View view)
+    private List<View> getAllViewsFrom(View view)
     {
         final List<View> list = new ArrayList<>();
 
@@ -112,6 +106,9 @@ public class FEditTextContainer extends FrameLayout
                 final View child = viewGroup.getChildAt(i);
                 list.addAll(getAllViewsFrom(child));
             }
+        } else if (view instanceof FEditText)
+        {
+            setEditText((FEditText) view);
         }
         return list;
     }

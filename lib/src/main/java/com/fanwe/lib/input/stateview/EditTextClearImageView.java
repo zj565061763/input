@@ -38,9 +38,7 @@ public class EditTextClearImageView extends ImageView implements FEditText.State
     private void init()
     {
         if (getDrawable() == null)
-        {
             setImageResource(R.drawable.lib_input_selector_edit_clear);
-        }
 
         super.setOnClickListener(new View.OnClickListener()
         {
@@ -48,20 +46,12 @@ public class EditTextClearImageView extends ImageView implements FEditText.State
             public void onClick(View v)
             {
                 if (mEditText != null)
-                {
                     mEditText.setText("");
-                }
+
                 if (mOnClickListener != null)
-                {
                     mOnClickListener.onClick(v);
-                }
             }
         });
-    }
-
-    public final EditText getEditText()
-    {
-        return mEditText;
     }
 
     @Override

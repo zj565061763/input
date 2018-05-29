@@ -1,7 +1,7 @@
 ## Gradle
-[![](https://jitpack.io/v/zj565061763/input.svg)](https://jitpack.io/#zj565061763/input)
+`implementation 'com.fanwe.android:input:1.0.2'`
 
-## demo
+# demo
 ![](http://thumbsnap.com/i/mLqcXGvF.gif?0407)
 
 ```xml
@@ -80,6 +80,6 @@
 </com.fanwe.lib.input.FEditTextContainer>
 ```
 
-## 支持覆盖的图片
+# 支持覆盖的图片
 * [drawable-xxhdpi](https://github.com/zj565061763/input/tree/master/lib/src/main/res/drawable-xxhdpi)
 * [drawable](https://github.com/zj565061763/input/tree/master/lib/src/main/res/drawable)

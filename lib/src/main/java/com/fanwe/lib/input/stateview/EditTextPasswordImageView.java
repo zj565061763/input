@@ -39,9 +39,7 @@ public class EditTextPasswordImageView extends ImageView implements FEditText.St
     private void init()
     {
         if (getDrawable() == null)
-        {
             setImageResource(R.drawable.lib_input_selector_edit_password);
-        }
 
         super.setOnClickListener(new View.OnClickListener()
         {
@@ -52,9 +50,7 @@ public class EditTextPasswordImageView extends ImageView implements FEditText.St
                 updateInputType();
 
                 if (mOnClickListener != null)
-                {
                     mOnClickListener.onClick(v);
-                }
             }
         });
     }
@@ -64,20 +60,14 @@ public class EditTextPasswordImageView extends ImageView implements FEditText.St
         if (mEditText != null)
         {
             final int selection = mEditText.getSelectionEnd();
+
             if (isSelected())
-            {
                 mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            } else
-            {
+            else
                 mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
+
             mEditText.setSelection(selection);
         }
-    }
-
-    public final EditText getEditText()
-    {
-        return mEditText;
     }
 
     @Override
@@ -96,14 +86,6 @@ public class EditTextPasswordImageView extends ImageView implements FEditText.St
         }
 
         if (type == FEditText.ChangType.Visibility)
-        {
-            if (editText.getVisibility() == View.VISIBLE)
-            {
-                setVisibility(VISIBLE);
-            } else
-            {
-                setVisibility(GONE);
-            }
-        }
+            setVisibility(editText.getVisibility());
     }
 }
