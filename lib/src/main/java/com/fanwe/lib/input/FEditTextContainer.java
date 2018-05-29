@@ -33,7 +33,7 @@ public class FEditTextContainer extends FrameLayout
         if (mEditText == null)
             mEditText = editText;
         else
-            throw new IllegalArgumentException("multi FEditText");
+            throw new IllegalArgumentException(FEditText.class.getSimpleName() + " has been specified");
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FEditTextContainer extends FrameLayout
         {
             if (item instanceof FEditTextContainer)
             {
-                throw new RuntimeException(getClass().getSimpleName() + " is found in " + this);
+                throw new RuntimeException(FEditTextContainer.class.getSimpleName() + " is found in " + this);
             } else if (item instanceof FEditText.StateView)
             {
                 final FEditText.StateView stateView = (FEditText.StateView) item;
