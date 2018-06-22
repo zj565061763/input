@@ -1,5 +1,5 @@
-## Gradle
-`implementation 'com.fanwe.android:input:1.0.2'`
+# Gradle
+[![](https://jitpack.io/v/zj565061763/input.svg)](https://jitpack.io/#zj565061763/input)
 
 # demo
 ![](http://thumbsnap.com/i/mLqcXGvF.gif?0407)
