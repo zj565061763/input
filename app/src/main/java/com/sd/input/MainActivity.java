@@ -1,4 +1,4 @@
-package com.fanwe.input;
+package com.sd.input;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
