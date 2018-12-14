@@ -6,20 +6,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.sd.lib.input.FEditText;
+import com.sd.lib.input.FEditTextContainer;
 import com.sd.lib.input.R;
 
 /**
  * 清除输入框内容
  */
-public class EditTextClearImageView extends ImageView implements FEditText.StateView
+public class EditTextClearImageView extends ImageView implements FEditTextContainer.UpdateCallback
 {
-    public EditTextClearImageView(Context context)
-    {
-        super(context);
-        init();
-    }
-
     public EditTextClearImageView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -55,7 +49,14 @@ public class EditTextClearImageView extends ImageView implements FEditText.State
     }
 
     @Override
-    public void onStateChanged(FEditText.ChangType type, EditText editText)
+    public void setVisibility(int visibility)
+    {
+        if (getVisibility() != visibility)
+            super.setVisibility(visibility);
+    }
+
+    @Override
+    public void onUpdate(EditText editText)
     {
         mEditText = editText;
 

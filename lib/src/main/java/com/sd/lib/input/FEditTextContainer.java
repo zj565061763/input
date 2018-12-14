@@ -4,42 +4,86 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FEditTextContainer extends FrameLayout
 {
-    public FEditTextContainer(Context context)
-    {
-        super(context);
-    }
-
     public FEditTextContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
-    private FEditText mEditText;
+    private EditText mEditText;
+    private boolean mHasInit = false;
 
-    private void setEditText(FEditText editText)
+    private List<UpdateCallback> mListCallback = new CopyOnWriteArrayList<>();
+
+    public void addCallback(UpdateCallback callback)
+    {
+        if (callback == null || mListCallback.contains(callback))
+            return;
+
+        mListCallback.add(callback);
+    }
+
+    public void removeCallback(UpdateCallback callback)
+    {
+        mListCallback.remove(callback);
+    }
+
+    public synchronized void init()
+    {
+        if (mHasInit)
+            return;
+
+        final List<View> list = getAllViewsFrom(this);
+        list.remove(this);
+
+        if (mEditText == null)
+            throw new RuntimeException("EditText was not found in " + this);
+        else
+            addOrRemoveCallback(list, true);
+
+        mHasInit = true;
+    }
+
+    private void setEditText(EditText editText)
     {
         if (mEditText == null)
+        {
             mEditText = editText;
-        else
-            throw new IllegalArgumentException(FEditText.class.getSimpleName() + " has been specified");
+            mViewListener.setView(editText);
+            mViewListener.start(true);
+        } else
+            throw new RuntimeException("EditText has been specified");
     }
+
+    private final FViewListener<EditText> mViewListener = new FViewListener<EditText>()
+    {
+        @Override
+        protected void onUpdate(EditText view)
+        {
+            for (UpdateCallback item : mListCallback)
+            {
+                item.onUpdate(mEditText);
+            }
+        }
+    };
 
     @Override
     public void onViewAdded(View child)
     {
         super.onViewAdded(child);
 
-        if (mEditText != null)
+        if (mHasInit)
         {
             final List<View> list = getAllViewsFrom(child);
-            addOrRemoveStateView(list, true);
+            addOrRemoveCallback(list, true);
         }
     }
 
@@ -48,10 +92,10 @@ public class FEditTextContainer extends FrameLayout
     {
         super.onViewRemoved(child);
 
-        if (mEditText != null)
+        if (mHasInit)
         {
             final List<View> list = getAllViewsFrom(child);
-            addOrRemoveStateView(list, false);
+            addOrRemoveCallback(list, false);
         }
     }
 
@@ -59,30 +103,22 @@ public class FEditTextContainer extends FrameLayout
     protected void onFinishInflate()
     {
         super.onFinishInflate();
-
-        final List<View> list = getAllViewsFrom(this);
-        list.remove(this);
-
-        if (mEditText == null)
-            throw new RuntimeException(FEditText.class.getSimpleName() + " not found in " + this);
-        else
-            addOrRemoveStateView(list, true);
+        init();
     }
 
-    private void addOrRemoveStateView(List<View> list, boolean add)
+    private void addOrRemoveCallback(List<View> list, boolean add)
     {
         for (View item : list)
         {
             if (item instanceof FEditTextContainer)
             {
                 throw new RuntimeException(FEditTextContainer.class.getSimpleName() + " is found in " + this);
-            } else if (item instanceof FEditText.StateView)
+            } else if (item instanceof UpdateCallback)
             {
-                final FEditText.StateView stateView = (FEditText.StateView) item;
                 if (add)
-                    mEditText.addStateView(stateView);
+                    addCallback((UpdateCallback) item);
                 else
-                    mEditText.removeStateView(stateView);
+                    removeCallback((UpdateCallback) item);
             }
         }
     }
@@ -94,17 +130,22 @@ public class FEditTextContainer extends FrameLayout
         list.add(view);
         if (view instanceof ViewGroup)
         {
-            ViewGroup viewGroup = (ViewGroup) view;
+            final ViewGroup viewGroup = (ViewGroup) view;
             final int count = viewGroup.getChildCount();
             for (int i = 0; i < count; i++)
             {
                 final View child = viewGroup.getChildAt(i);
                 list.addAll(getAllViewsFrom(child));
             }
-        } else if (view instanceof FEditText)
+        } else if (view instanceof EditText)
         {
-            setEditText((FEditText) view);
+            setEditText((EditText) view);
         }
         return list;
+    }
+
+    public interface UpdateCallback
+    {
+        void onUpdate(EditText editText);
     }
 }

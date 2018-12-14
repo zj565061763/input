@@ -7,20 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.sd.lib.input.FEditText;
+import com.sd.lib.input.FEditTextContainer;
 import com.sd.lib.input.R;
 
 /**
  * 密码隐藏和明文切换
  */
-public class EditTextPasswordImageView extends ImageView implements FEditText.StateView
+public class EditTextPasswordImageView extends ImageView implements FEditTextContainer.UpdateCallback
 {
-    public EditTextPasswordImageView(Context context)
-    {
-        super(context);
-        init();
-    }
-
     public EditTextPasswordImageView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -71,7 +65,14 @@ public class EditTextPasswordImageView extends ImageView implements FEditText.St
     }
 
     @Override
-    public void onStateChanged(FEditText.ChangType type, EditText editText)
+    public void setVisibility(int visibility)
+    {
+        if (getVisibility() != visibility)
+            super.setVisibility(visibility);
+    }
+
+    @Override
+    public void onUpdate(EditText editText)
     {
         if (mEditText != editText)
         {
@@ -79,7 +80,6 @@ public class EditTextPasswordImageView extends ImageView implements FEditText.St
             updateInputType();
         }
 
-        if (type == FEditText.ChangType.Visibility)
-            setVisibility(editText.getVisibility());
+        setVisibility(editText.getVisibility());
     }
 }
