@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <com.sd.lib.input.FEditText
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <com.sd.lib.input.FEditText
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -53,7 +53,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <com.sd.lib.input.FEditText
+        <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
