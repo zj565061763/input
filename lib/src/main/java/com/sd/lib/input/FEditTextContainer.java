@@ -36,7 +36,7 @@ public class FEditTextContainer extends FrameLayout
         mListStateView.remove(stateView);
     }
 
-    public synchronized void init()
+    public void init()
     {
         if (mHasInit)
             return;
