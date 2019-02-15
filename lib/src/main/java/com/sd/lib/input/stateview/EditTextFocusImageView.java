@@ -10,7 +10,7 @@ import com.sd.lib.input.FEditTextContainer;
 /**
  * 焦点变化，切换选中状态
  */
-public class EditTextFocusImageView extends ImageView implements FEditTextContainer.UpdateCallback
+public class EditTextFocusImageView extends ImageView implements FEditTextContainer.StateView
 {
     public EditTextFocusImageView(Context context, AttributeSet attrs)
     {

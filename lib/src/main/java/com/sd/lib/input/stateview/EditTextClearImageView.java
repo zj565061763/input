@@ -12,7 +12,7 @@ import com.sd.lib.input.R;
 /**
  * 清除输入框内容
  */
-public class EditTextClearImageView extends ImageView implements FEditTextContainer.UpdateCallback
+public class EditTextClearImageView extends ImageView implements FEditTextContainer.StateView
 {
     public EditTextClearImageView(Context context, AttributeSet attrs)
     {

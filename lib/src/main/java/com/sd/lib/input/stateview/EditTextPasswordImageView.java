@@ -13,7 +13,7 @@ import com.sd.lib.input.R;
 /**
  * 密码隐藏和明文切换
  */
-public class EditTextPasswordImageView extends ImageView implements FEditTextContainer.UpdateCallback
+public class EditTextPasswordImageView extends ImageView implements FEditTextContainer.StateView
 {
     public EditTextPasswordImageView(Context context, AttributeSet attrs)
     {
