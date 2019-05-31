@@ -23,6 +23,21 @@ public class FEditTextContainer extends FrameLayout
         super(context, attrs);
     }
 
+    /**
+     * 是否已经初始化
+     *
+     * @return
+     */
+    public boolean hasInit()
+    {
+        return mHasInit;
+    }
+
+    /**
+     * 添加{@link StateView}
+     *
+     * @param stateView
+     */
     public void addStateView(StateView stateView)
     {
         if (stateView == null || mListStateView.contains(stateView))
@@ -31,11 +46,19 @@ public class FEditTextContainer extends FrameLayout
         mListStateView.add(stateView);
     }
 
+    /**
+     * 移除{@link StateView}
+     *
+     * @param stateView
+     */
     public void removeStateView(StateView stateView)
     {
         mListStateView.remove(stateView);
     }
 
+    /**
+     * 初始化
+     */
     public void init()
     {
         if (mHasInit)
@@ -52,6 +75,9 @@ public class FEditTextContainer extends FrameLayout
         mHasInit = true;
     }
 
+    /**
+     * 重置，重置后需要重新初始化
+     */
     public void reset()
     {
         mListStateView.clear();
