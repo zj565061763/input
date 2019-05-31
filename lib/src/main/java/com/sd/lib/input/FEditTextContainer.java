@@ -14,23 +14,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FEditTextContainer extends FrameLayout
 {
     private EditText mEditText;
-    private boolean mHasInit = false;
-
     private final List<StateView> mListStateView = new CopyOnWriteArrayList<>();
 
     public FEditTextContainer(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-    }
-
-    /**
-     * 是否已经初始化
-     *
-     * @return
-     */
-    public boolean hasInit()
-    {
-        return mHasInit;
     }
 
     /**
@@ -61,18 +49,15 @@ public class FEditTextContainer extends FrameLayout
      */
     public void init()
     {
-        if (mHasInit)
-            return;
+        reset();
 
-        final List<View> list = getAllViewsFrom(this);
-        list.remove(this);
+        final List<View> list = getAllViews(this);
+        checkAndSaveEditText(list);
 
         if (mEditText == null)
             throw new RuntimeException("EditText was not found in " + this);
-        else
-            addOrRemoveStateView(list, true);
 
-        mHasInit = true;
+        addOrRemoveStateView(list, true);
     }
 
     /**
@@ -81,9 +66,8 @@ public class FEditTextContainer extends FrameLayout
     public void reset()
     {
         mListStateView.clear();
-        mEditText = null;
         mViewListener.setView(null);
-        mHasInit = false;
+        mEditText = null;
     }
 
     @Override
@@ -98,9 +82,13 @@ public class FEditTextContainer extends FrameLayout
     {
         super.onViewAdded(child);
 
-        if (mHasInit)
+        if (mEditText == null)
         {
-            final List<View> list = getAllViewsFrom(child);
+            init();
+        } else
+        {
+            final List<View> list = getAllViews(child);
+            checkAndSaveEditText(list);
             addOrRemoveStateView(list, true);
         }
     }
@@ -110,10 +98,19 @@ public class FEditTextContainer extends FrameLayout
     {
         super.onViewRemoved(child);
 
-        if (mHasInit)
+        if (mEditText != null)
         {
-            final List<View> list = getAllViewsFrom(child);
-            addOrRemoveStateView(list, false);
+            final List<View> list = getAllViews(child);
+            if (resetIfNeed(list))
+            {
+                if (mEditText != null)
+                    throw new RuntimeException("EditText is not null after reset()");
+
+                // 已经被重置，不做任何处理
+            } else
+            {
+                addOrRemoveStateView(list, false);
+            }
         }
     }
 
@@ -121,10 +118,7 @@ public class FEditTextContainer extends FrameLayout
     {
         for (View item : list)
         {
-            if (item instanceof FEditTextContainer)
-            {
-                throw new RuntimeException(FEditTextContainer.class.getSimpleName() + " is found in " + this);
-            } else if (item instanceof StateView)
+            if (item instanceof StateView)
             {
                 if (add)
                     addStateView((StateView) item);
@@ -134,36 +128,49 @@ public class FEditTextContainer extends FrameLayout
         }
     }
 
-    private List<View> getAllViewsFrom(View view)
+    private boolean resetIfNeed(List<View> list)
     {
-        final List<View> list = new ArrayList<>();
-
-        list.add(view);
-        if (view instanceof ViewGroup)
+        for (View item : list)
         {
-            final ViewGroup viewGroup = (ViewGroup) view;
-            final int count = viewGroup.getChildCount();
-            for (int i = 0; i < count; i++)
+            if (mEditText != null && mEditText == item)
             {
-                final View child = viewGroup.getChildAt(i);
-                list.addAll(getAllViewsFrom(child));
+                reset();
+                return true;
             }
-        } else if (view instanceof EditText)
-        {
-            saveEditText((EditText) view);
         }
-        return list;
+        return false;
+    }
+
+    private void checkAndSaveEditText(List<View> list)
+    {
+        for (View item : list)
+        {
+            if (item instanceof EditText)
+            {
+                saveEditText((EditText) item);
+            } else if (item instanceof FEditTextContainer)
+            {
+                if (item != this)
+                    throw new RuntimeException("Can not add FEditTextContainer to FEditTextContainer");
+            }
+        }
     }
 
     private void saveEditText(EditText editText)
     {
+        if (editText == null)
+            throw new IllegalArgumentException("editText is null when saveEditText()");
+
         if (mEditText == null)
         {
             mEditText = editText;
             mViewListener.setView(editText);
             mViewListener.start();
         } else
-            throw new RuntimeException("EditText has been saved");
+        {
+            if (mEditText != editText)
+                throw new RuntimeException("EditText has been saved");
+        }
     }
 
     private final FViewListener<EditText> mViewListener = new FViewListener<EditText>()
@@ -177,6 +184,27 @@ public class FEditTextContainer extends FrameLayout
             }
         }
     };
+
+    private static List<View> getAllViews(View view)
+    {
+        if (view == null)
+            throw new IllegalArgumentException("view is null when getAllViews()");
+
+        final List<View> list = new ArrayList<>();
+
+        list.add(view);
+        if (view instanceof ViewGroup)
+        {
+            final ViewGroup viewGroup = (ViewGroup) view;
+            final int count = viewGroup.getChildCount();
+            for (int i = 0; i < count; i++)
+            {
+                final View child = viewGroup.getChildAt(i);
+                list.addAll(getAllViews(child));
+            }
+        }
+        return list;
+    }
 
     public interface StateView
     {
