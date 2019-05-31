@@ -52,6 +52,14 @@ public class FEditTextContainer extends FrameLayout
         mHasInit = true;
     }
 
+    public void reset()
+    {
+        mListStateView.clear();
+        mEditText = null;
+        mViewListener.setView(null);
+        mHasInit = false;
+    }
+
     @Override
     protected void onFinishInflate()
     {
