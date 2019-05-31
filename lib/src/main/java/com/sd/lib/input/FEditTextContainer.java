@@ -52,29 +52,6 @@ public class FEditTextContainer extends FrameLayout
         mHasInit = true;
     }
 
-    private void setEditText(EditText editText)
-    {
-        if (mEditText == null)
-        {
-            mEditText = editText;
-            mViewListener.setView(editText);
-            mViewListener.start(true);
-        } else
-            throw new RuntimeException("EditText has been specified");
-    }
-
-    private final FViewListener<EditText> mViewListener = new FViewListener<EditText>()
-    {
-        @Override
-        protected void onUpdate(EditText view)
-        {
-            for (StateView item : mListStateView)
-            {
-                item.onUpdate(mEditText);
-            }
-        }
-    };
-
     @Override
     public void onViewAdded(View child)
     {
@@ -143,6 +120,29 @@ public class FEditTextContainer extends FrameLayout
         }
         return list;
     }
+
+    private void setEditText(EditText editText)
+    {
+        if (mEditText == null)
+        {
+            mEditText = editText;
+            mViewListener.setView(editText);
+            mViewListener.start(true);
+        } else
+            throw new RuntimeException("EditText has been specified");
+    }
+
+    private final FViewListener<EditText> mViewListener = new FViewListener<EditText>()
+    {
+        @Override
+        protected void onUpdate(EditText view)
+        {
+            for (StateView item : mListStateView)
+            {
+                item.onUpdate(mEditText);
+            }
+        }
+    };
 
     public interface StateView
     {
