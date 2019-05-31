@@ -127,7 +127,7 @@ public class FEditTextContainer extends FrameLayout
         {
             mEditText = editText;
             mViewListener.setView(editText);
-            mViewListener.start(true);
+            mViewListener.start();
         } else
             throw new RuntimeException("EditText has been saved");
     }
