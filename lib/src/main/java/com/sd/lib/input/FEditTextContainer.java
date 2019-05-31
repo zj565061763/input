@@ -53,6 +53,13 @@ public class FEditTextContainer extends FrameLayout
     }
 
     @Override
+    protected void onFinishInflate()
+    {
+        super.onFinishInflate();
+        init();
+    }
+
+    @Override
     public void onViewAdded(View child)
     {
         super.onViewAdded(child);
@@ -74,13 +81,6 @@ public class FEditTextContainer extends FrameLayout
             final List<View> list = getAllViewsFrom(child);
             addOrRemoveStateView(list, false);
         }
-    }
-
-    @Override
-    protected void onFinishInflate()
-    {
-        super.onFinishInflate();
-        init();
     }
 
     private void addOrRemoveStateView(List<View> list, boolean add)
@@ -116,12 +116,12 @@ public class FEditTextContainer extends FrameLayout
             }
         } else if (view instanceof EditText)
         {
-            setEditText((EditText) view);
+            saveEditText((EditText) view);
         }
         return list;
     }
 
-    private void setEditText(EditText editText)
+    private void saveEditText(EditText editText)
     {
         if (mEditText == null)
         {
@@ -129,7 +129,7 @@ public class FEditTextContainer extends FrameLayout
             mViewListener.setView(editText);
             mViewListener.start(true);
         } else
-            throw new RuntimeException("EditText has been specified");
+            throw new RuntimeException("EditText has been saved");
     }
 
     private final FViewListener<EditText> mViewListener = new FViewListener<EditText>()
