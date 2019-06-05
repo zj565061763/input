@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -66,7 +67,6 @@ public class FEditTextContainer extends FrameLayout
     public void reset()
     {
         mListStateView.clear();
-        mViewListener.setView(null);
         mEditText = null;
     }
 
@@ -103,9 +103,6 @@ public class FEditTextContainer extends FrameLayout
             final List<View> list = getAllViews(child);
             if (resetIfNeed(list))
             {
-                if (mEditText != null)
-                    throw new RuntimeException("EditText is not null after reset()");
-
                 // 已经被重置，不做任何处理
             } else
             {
@@ -132,7 +129,7 @@ public class FEditTextContainer extends FrameLayout
     {
         for (View item : list)
         {
-            if (mEditText != null && mEditText == item)
+            if (mEditText == item)
             {
                 reset();
                 return true;
@@ -164,8 +161,7 @@ public class FEditTextContainer extends FrameLayout
         if (mEditText == null)
         {
             mEditText = editText;
-            mViewListener.setView(editText);
-            mViewListener.start();
+            registerViewTreeObserver(true);
         } else
         {
             if (mEditText != editText)
@@ -173,15 +169,47 @@ public class FEditTextContainer extends FrameLayout
         }
     }
 
-    private final FViewListener<EditText> mViewListener = new FViewListener<EditText>()
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        registerViewTreeObserver(true);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        super.onDetachedFromWindow();
+        registerViewTreeObserver(false);
+    }
+
+    private void registerViewTreeObserver(boolean register)
+    {
+        final ViewTreeObserver observer = getViewTreeObserver();
+        if (observer.isAlive())
+        {
+            observer.removeOnPreDrawListener(mOnPreDrawListener);
+            if (register)
+                observer.addOnPreDrawListener(mOnPreDrawListener);
+        }
+    }
+
+    private final ViewTreeObserver.OnPreDrawListener mOnPreDrawListener = new ViewTreeObserver.OnPreDrawListener()
     {
         @Override
-        protected void onUpdate(EditText view)
+        public boolean onPreDraw()
         {
+            if (mEditText == null)
+            {
+                registerViewTreeObserver(false);
+                return true;
+            }
+
             for (StateView item : mListStateView)
             {
                 item.onUpdate(mEditText);
             }
+            return true;
         }
     };
 
@@ -200,7 +228,8 @@ public class FEditTextContainer extends FrameLayout
             for (int i = 0; i < count; i++)
             {
                 final View child = viewGroup.getChildAt(i);
-                list.addAll(getAllViews(child));
+                if (child != null)
+                    list.addAll(getAllViews(child));
             }
         }
         return list;
