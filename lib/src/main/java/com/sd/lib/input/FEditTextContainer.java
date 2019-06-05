@@ -23,29 +23,6 @@ public class FEditTextContainer extends FrameLayout
     }
 
     /**
-     * 添加{@link StateView}
-     *
-     * @param stateView
-     */
-    public void addStateView(StateView stateView)
-    {
-        if (stateView == null || mListStateView.contains(stateView))
-            return;
-
-        mListStateView.add(stateView);
-    }
-
-    /**
-     * 移除{@link StateView}
-     *
-     * @param stateView
-     */
-    public void removeStateView(StateView stateView)
-    {
-        mListStateView.remove(stateView);
-    }
-
-    /**
      * 初始化
      */
     public void init()
@@ -75,22 +52,6 @@ public class FEditTextContainer extends FrameLayout
     {
         super.onFinishInflate();
         init();
-    }
-
-    @Override
-    public void onViewAdded(View child)
-    {
-        super.onViewAdded(child);
-
-        if (mEditText == null)
-        {
-            init();
-        } else
-        {
-            final List<View> list = getAllViews(child);
-            checkAndSaveEditText(list);
-            addOrRemoveStateView(list, true);
-        }
     }
 
     @Override
@@ -124,6 +85,20 @@ public class FEditTextContainer extends FrameLayout
             }
         }
     }
+
+    private void addStateView(StateView stateView)
+    {
+        if (stateView == null || mListStateView.contains(stateView))
+            return;
+
+        mListStateView.add(stateView);
+    }
+
+    private void removeStateView(StateView stateView)
+    {
+        mListStateView.remove(stateView);
+    }
+
 
     private boolean resetIfNeed(List<View> list)
     {
