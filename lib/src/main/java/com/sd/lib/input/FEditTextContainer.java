@@ -1,6 +1,7 @@
 package com.sd.lib.input;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class FEditTextContainer extends FrameLayout
         if (mEditText == null)
             throw new RuntimeException("EditText was not found in " + this);
 
-        addOrRemoveStateView(list, true);
+        addStateViewIfNeed(list);
     }
 
     /**
@@ -61,28 +62,32 @@ public class FEditTextContainer extends FrameLayout
 
         if (mEditText != null)
         {
-            final List<View> list = getAllViews(child);
-            if (resetIfNeed(list))
+            if (isAttached(mEditText))
             {
-                // 已经被重置，不做任何处理
+                final List<View> list = getAllViews(child);
+                removeStateViewIfNeed(list);
             } else
             {
-                addOrRemoveStateView(list, false);
+                reset();
             }
         }
     }
 
-    private void addOrRemoveStateView(List<View> list, boolean add)
+    private void addStateViewIfNeed(List<View> list)
     {
         for (View item : list)
         {
             if (item instanceof StateView)
-            {
-                if (add)
-                    addStateView((StateView) item);
-                else
-                    removeStateView((StateView) item);
-            }
+                addStateView((StateView) item);
+        }
+    }
+
+    private void removeStateViewIfNeed(List<View> list)
+    {
+        for (View item : list)
+        {
+            if (item instanceof StateView)
+                removeStateView((StateView) item);
         }
     }
 
@@ -100,20 +105,6 @@ public class FEditTextContainer extends FrameLayout
             return;
 
         mStateViewHolder.remove(stateView);
-    }
-
-
-    private boolean resetIfNeed(List<View> list)
-    {
-        for (View item : list)
-        {
-            if (mEditText == item)
-            {
-                reset();
-                return true;
-            }
-        }
-        return false;
     }
 
     private void checkAndSaveEditText(List<View> list)
@@ -213,8 +204,20 @@ public class FEditTextContainer extends FrameLayout
         return list;
     }
 
+    private static boolean isAttached(View view)
+    {
+        if (view == null)
+            return false;
+
+        if (Build.VERSION.SDK_INT >= 19)
+            return view.isAttachedToWindow();
+        else
+            return view.getWindowToken() != null;
+    }
+
     public interface StateView
     {
         void onUpdate(EditText editText);
     }
+
 }
