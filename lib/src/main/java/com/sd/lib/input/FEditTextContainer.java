@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,6 +18,8 @@ public class FEditTextContainer extends FrameLayout
 {
     private EditText mEditText;
     private final List<StateView> mStateViewHolder = new CopyOnWriteArrayList<>();
+
+    private WeakReference<ViewTreeObserver> mGlobalViewTreeObserver;
 
     public FEditTextContainer(Context context, AttributeSet attrs)
     {
@@ -46,6 +49,7 @@ public class FEditTextContainer extends FrameLayout
     {
         mStateViewHolder.clear();
         mEditText = null;
+        unregisterObserver();
     }
 
     @Override
@@ -130,7 +134,7 @@ public class FEditTextContainer extends FrameLayout
         if (mEditText == null)
         {
             mEditText = editText;
-            registerViewTreeObserver(true);
+            registerObserver();
         } else
         {
             if (mEditText != editText)
@@ -142,25 +146,40 @@ public class FEditTextContainer extends FrameLayout
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        registerViewTreeObserver(true);
+        final ViewTreeObserver observer = getViewTreeObserver();
+        mGlobalViewTreeObserver = new WeakReference<>(observer);
+
+        registerObserver();
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
         super.onDetachedFromWindow();
-        registerViewTreeObserver(false);
+        unregisterObserver();
     }
 
-    private void registerViewTreeObserver(boolean register)
+    private void registerObserver()
+    {
+        unregisterObserver();
+
+        if (mEditText != null)
+        {
+            final ViewTreeObserver observer = getViewTreeObserver();
+            if (observer.isAlive())
+                observer.addOnPreDrawListener(mOnPreDrawListener);
+        }
+    }
+
+    private void unregisterObserver()
     {
         final ViewTreeObserver observer = getViewTreeObserver();
         if (observer.isAlive())
-        {
             observer.removeOnPreDrawListener(mOnPreDrawListener);
-            if (register)
-                observer.addOnPreDrawListener(mOnPreDrawListener);
-        }
+
+        final ViewTreeObserver globalObserver = mGlobalViewTreeObserver == null ? null : mGlobalViewTreeObserver.get();
+        if (globalObserver != null && globalObserver.isAlive())
+            globalObserver.removeOnPreDrawListener(mOnPreDrawListener);
     }
 
     private final ViewTreeObserver.OnPreDrawListener mOnPreDrawListener = new ViewTreeObserver.OnPreDrawListener()
@@ -170,7 +189,7 @@ public class FEditTextContainer extends FrameLayout
         {
             if (mEditText == null)
             {
-                registerViewTreeObserver(false);
+                unregisterObserver();
                 return true;
             }
 
