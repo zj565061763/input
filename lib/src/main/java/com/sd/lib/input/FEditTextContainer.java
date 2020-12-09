@@ -238,5 +238,4 @@ public class FEditTextContainer extends FrameLayout
     {
         void onUpdate(EditText editText);
     }
-
 }
