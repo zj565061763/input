@@ -9,7 +9,6 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -18,8 +17,6 @@ public class FEditTextContainer extends FrameLayout
 {
     private EditText mEditText;
     private final List<StateView> mStateViewHolder = new CopyOnWriteArrayList<>();
-
-    private WeakReference<ViewTreeObserver> mGlobalViewTreeObserver;
 
     public FEditTextContainer(Context context, AttributeSet attrs)
     {
@@ -146,9 +143,6 @@ public class FEditTextContainer extends FrameLayout
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        final ViewTreeObserver observer = getViewTreeObserver();
-        mGlobalViewTreeObserver = new WeakReference<>(observer);
-
         registerObserver();
     }
 
@@ -176,10 +170,6 @@ public class FEditTextContainer extends FrameLayout
         final ViewTreeObserver observer = getViewTreeObserver();
         if (observer.isAlive())
             observer.removeOnPreDrawListener(mOnPreDrawListener);
-
-        final ViewTreeObserver globalObserver = mGlobalViewTreeObserver == null ? null : mGlobalViewTreeObserver.get();
-        if (globalObserver != null && globalObserver.isAlive())
-            globalObserver.removeOnPreDrawListener(mOnPreDrawListener);
     }
 
     private final ViewTreeObserver.OnPreDrawListener mOnPreDrawListener = new ViewTreeObserver.OnPreDrawListener()
