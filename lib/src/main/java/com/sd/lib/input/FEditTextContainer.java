@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FEditTextContainer extends FrameLayout
 {
     private EditText mEditText;
-    private final List<StateView> mListStateView = new CopyOnWriteArrayList<>();
+    private final List<StateView> mStateViewHolder = new CopyOnWriteArrayList<>();
 
     public FEditTextContainer(Context context, AttributeSet attrs)
     {
@@ -43,7 +43,7 @@ public class FEditTextContainer extends FrameLayout
      */
     public void reset()
     {
-        mListStateView.clear();
+        mStateViewHolder.clear();
         mEditText = null;
     }
 
@@ -88,15 +88,18 @@ public class FEditTextContainer extends FrameLayout
 
     private void addStateView(StateView stateView)
     {
-        if (stateView == null || mListStateView.contains(stateView))
+        if (stateView == null || mStateViewHolder.contains(stateView))
             return;
 
-        mListStateView.add(stateView);
+        mStateViewHolder.add(stateView);
     }
 
     private void removeStateView(StateView stateView)
     {
-        mListStateView.remove(stateView);
+        if (stateView == null)
+            return;
+
+        mStateViewHolder.remove(stateView);
     }
 
 
@@ -180,7 +183,7 @@ public class FEditTextContainer extends FrameLayout
                 return true;
             }
 
-            for (StateView item : mListStateView)
+            for (StateView item : mStateViewHolder)
             {
                 item.onUpdate(mEditText);
             }
