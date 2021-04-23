@@ -28,6 +28,14 @@ class FEditTextStateListener {
     }
 
     /**
+     * 清空状态回调
+     */
+    @Synchronized
+    fun clearStateCallback() {
+        _mapStateCallback.clear()
+    }
+
+    /**
      * 开始监听
      */
     @Synchronized

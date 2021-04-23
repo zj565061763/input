@@ -5,18 +5,16 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FEditTextContainer extends FrameLayout
 {
     private EditText mEditText;
-    private final List<StateView> mStateViewHolder = new CopyOnWriteArrayList<>();
+    private final FEditTextStateListener mStateListener = new FEditTextStateListener();
 
     public FEditTextContainer(Context context, AttributeSet attrs)
     {
@@ -44,9 +42,9 @@ public class FEditTextContainer extends FrameLayout
      */
     public void reset()
     {
-        mStateViewHolder.clear();
+        mStateListener.clearStateCallback();
+        mStateListener.stop();
         mEditText = null;
-        unregisterObserver();
     }
 
     @Override
@@ -94,18 +92,12 @@ public class FEditTextContainer extends FrameLayout
 
     private void addStateView(StateView stateView)
     {
-        if (stateView == null || mStateViewHolder.contains(stateView))
-            return;
-
-        mStateViewHolder.add(stateView);
+        mStateListener.addStateCallback(stateView);
     }
 
     private void removeStateView(StateView stateView)
     {
-        if (stateView == null)
-            return;
-
-        mStateViewHolder.remove(stateView);
+        mStateListener.removeStateCallback(stateView);
     }
 
     private void checkAndSaveEditText(List<View> list)
@@ -131,7 +123,7 @@ public class FEditTextContainer extends FrameLayout
         if (mEditText == null)
         {
             mEditText = editText;
-            registerObserver();
+            mStateListener.start(editText);
         } else
         {
             if (mEditText != editText)
@@ -143,53 +135,15 @@ public class FEditTextContainer extends FrameLayout
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        registerObserver();
+        mStateListener.start(mEditText);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
         super.onDetachedFromWindow();
-        unregisterObserver();
+        mStateListener.stop();
     }
-
-    private void registerObserver()
-    {
-        unregisterObserver();
-
-        if (mEditText != null)
-        {
-            final ViewTreeObserver observer = getViewTreeObserver();
-            if (observer.isAlive())
-                observer.addOnPreDrawListener(mOnPreDrawListener);
-        }
-    }
-
-    private void unregisterObserver()
-    {
-        final ViewTreeObserver observer = getViewTreeObserver();
-        if (observer.isAlive())
-            observer.removeOnPreDrawListener(mOnPreDrawListener);
-    }
-
-    private final ViewTreeObserver.OnPreDrawListener mOnPreDrawListener = new ViewTreeObserver.OnPreDrawListener()
-    {
-        @Override
-        public boolean onPreDraw()
-        {
-            if (mEditText == null)
-            {
-                unregisterObserver();
-                return true;
-            }
-
-            for (StateView item : mStateViewHolder)
-            {
-                item.onUpdate(mEditText);
-            }
-            return true;
-        }
-    };
 
     private static List<View> getAllViews(View view)
     {
@@ -224,8 +178,7 @@ public class FEditTextContainer extends FrameLayout
             return view.getWindowToken() != null;
     }
 
-    public interface StateView
+    public interface StateView extends FEditTextStateListener.StateCallback
     {
-        void onUpdate(EditText editText);
     }
 }
