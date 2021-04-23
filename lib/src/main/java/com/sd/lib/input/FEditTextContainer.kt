@@ -1,184 +1,119 @@
-package com.sd.lib.input;
+package com.sd.lib.input
 
-import android.content.Context;
-import android.os.Build;
-import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.content.Context
+import android.os.Build
+import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.FrameLayout
 
-import java.util.ArrayList;
-import java.util.List;
+class FEditTextContainer : FrameLayout {
+    private val _stateListener = FEditTextStateListener()
+    private var _editText: EditText? = null
 
-public class FEditTextContainer extends FrameLayout
-{
-    private EditText mEditText;
-    private final FEditTextStateListener mStateListener = new FEditTextStateListener();
-
-    public FEditTextContainer(Context context, AttributeSet attrs)
-    {
-        super(context, attrs);
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     /**
      * 初始化
      */
-    public void init()
-    {
-        reset();
+    @Synchronized
+    fun init() {
+        reset()
+        val list = getAllViews(this)
 
-        final List<View> list = getAllViews(this);
-        checkAndSaveEditText(list);
+        list.forEach {
+            if (it is EditText) {
+                saveEditText(it)
+            } else if (it is FEditTextContainer) {
+                if (it !== this) {
+                    throw RuntimeException("Can not add FEditTextContainer to FEditTextContainer")
+                }
+            }
+        }
 
-        if (mEditText == null)
-            throw new RuntimeException("EditText was not found in " + this);
+        if (_editText == null) {
+            throw RuntimeException("EditText was not found in $this")
+        }
 
-        addStateViewIfNeed(list);
+        list.forEach {
+            if (it is StateView) {
+                _stateListener.addStateCallback(it)
+            }
+        }
     }
 
     /**
      * 重置，重置后需要重新初始化
      */
-    public void reset()
-    {
-        mStateListener.clearStateCallback();
-        mStateListener.stop();
-        mEditText = null;
+    @Synchronized
+    fun reset() {
+        _stateListener.clearStateCallback()
+        _stateListener.stop()
+        _editText = null
     }
 
-    @Override
-    protected void onFinishInflate()
-    {
-        super.onFinishInflate();
-        init();
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        init()
     }
 
-    @Override
-    public void onViewRemoved(View child)
-    {
-        super.onViewRemoved(child);
-
-        if (mEditText != null)
-        {
-            if (isAttached(mEditText))
-            {
-                final List<View> list = getAllViews(child);
-                removeStateViewIfNeed(list);
-            } else
-            {
-                reset();
+    override fun onViewRemoved(child: View) {
+        super.onViewRemoved(child)
+        _editText?.let {
+            if (!isAttached(it)) {
+                // 如果EditText被移除，则重置
+                reset()
             }
         }
     }
 
-    private void addStateViewIfNeed(List<View> list)
-    {
-        for (View item : list)
-        {
-            if (item instanceof StateView)
-                addStateView((StateView) item);
-        }
-    }
-
-    private void removeStateViewIfNeed(List<View> list)
-    {
-        for (View item : list)
-        {
-            if (item instanceof StateView)
-                removeStateView((StateView) item);
-        }
-    }
-
-    private void addStateView(StateView stateView)
-    {
-        mStateListener.addStateCallback(stateView);
-    }
-
-    private void removeStateView(StateView stateView)
-    {
-        mStateListener.removeStateCallback(stateView);
-    }
-
-    private void checkAndSaveEditText(List<View> list)
-    {
-        for (View item : list)
-        {
-            if (item instanceof EditText)
-            {
-                saveEditText((EditText) item);
-            } else if (item instanceof FEditTextContainer)
-            {
-                if (item != this)
-                    throw new RuntimeException("Can not add FEditTextContainer to FEditTextContainer");
+    private fun saveEditText(editText: EditText) {
+        if (_editText == null) {
+            _editText = editText
+            _stateListener.start(editText)
+        } else {
+            if (_editText !== editText) {
+                throw RuntimeException("EditText has been saved")
             }
         }
     }
 
-    private void saveEditText(EditText editText)
-    {
-        if (editText == null)
-            throw new IllegalArgumentException("editText is null when saveEditText()");
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        _stateListener.start(_editText)
+    }
 
-        if (mEditText == null)
-        {
-            mEditText = editText;
-            mStateListener.start(editText);
-        } else
-        {
-            if (mEditText != editText)
-                throw new RuntimeException("EditText has been saved");
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        _stateListener.stop()
+    }
+
+    interface StateView : FEditTextStateListener.StateCallback
+
+    companion object {
+        private fun getAllViews(view: View): List<View> {
+            val list = mutableListOf<View>()
+            list.add(view)
+
+            if (view is ViewGroup) {
+                val count = view.childCount
+                for (i in 0 until count) {
+                    val child = view.getChildAt(i)
+                    if (child != null) {
+                        list.addAll(getAllViews(child))
+                    }
+                }
+            }
+            return list
         }
-    }
 
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        mStateListener.start(mEditText);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        super.onDetachedFromWindow();
-        mStateListener.stop();
-    }
-
-    private static List<View> getAllViews(View view)
-    {
-        if (view == null)
-            throw new IllegalArgumentException("view is null when getAllViews()");
-
-        final List<View> list = new ArrayList<>();
-
-        list.add(view);
-        if (view instanceof ViewGroup)
-        {
-            final ViewGroup viewGroup = (ViewGroup) view;
-            final int count = viewGroup.getChildCount();
-            for (int i = 0; i < count; i++)
-            {
-                final View child = viewGroup.getChildAt(i);
-                if (child != null)
-                    list.addAll(getAllViews(child));
+        private fun isAttached(view: View): Boolean {
+            return if (Build.VERSION.SDK_INT >= 19) {
+                view.isAttachedToWindow
+            } else {
+                view.windowToken != null
             }
         }
-        return list;
-    }
-
-    private static boolean isAttached(View view)
-    {
-        if (view == null)
-            return false;
-
-        if (Build.VERSION.SDK_INT >= 19)
-            return view.isAttachedToWindow();
-        else
-            return view.getWindowToken() != null;
-    }
-
-    public interface StateView extends FEditTextStateListener.StateCallback
-    {
     }
 }
