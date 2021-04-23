@@ -40,7 +40,7 @@ class FEditTextStateListener {
      */
     @Synchronized
     fun start(editText: EditText?): Boolean {
-        if (_editText == editText) {
+        if (_editText !== editText) {
             return false
         }
 
