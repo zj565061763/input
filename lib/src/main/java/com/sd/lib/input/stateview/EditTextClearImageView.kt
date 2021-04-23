@@ -4,13 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.EditText
 import android.widget.ImageView
-import com.sd.lib.input.FEditTextContainer.StateView
+import com.sd.lib.input.FEditTextContainer
 import com.sd.lib.input.R
 
 /**
  * 清除输入框内容
  */
-class EditTextClearImageView : ImageView, StateView {
+class EditTextClearImageView : ImageView, FEditTextContainer.StateView {
     private var _editText: EditText? = null
     private var _onClickListener: OnClickListener? = null
 
