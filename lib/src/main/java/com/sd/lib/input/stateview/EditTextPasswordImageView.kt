@@ -1,85 +1,59 @@
-package com.sd.lib.input.stateview;
+package com.sd.lib.input.stateview
 
-import android.content.Context;
-import android.text.InputType;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-
-import com.sd.lib.input.FEditTextContainer;
-import com.sd.lib.input.R;
+import android.content.Context
+import android.text.InputType
+import android.util.AttributeSet
+import android.widget.EditText
+import android.widget.ImageView
+import com.sd.lib.input.FEditTextContainer
+import com.sd.lib.input.R
 
 /**
  * 密码隐藏和明文切换
  */
-public class EditTextPasswordImageView extends ImageView implements FEditTextContainer.StateView
-{
-    public EditTextPasswordImageView(Context context, AttributeSet attrs)
-    {
-        super(context, attrs);
-        init();
-    }
+class EditTextPasswordImageView : ImageView, FEditTextContainer.StateView {
+    private var _editText: EditText? = null
+    private var _onClickListener: OnClickListener? = null
 
-    private EditText mEditText;
-    private View.OnClickListener mOnClickListener;
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        if (drawable == null) {
+            setImageResource(R.drawable.lib_input_selector_edit_password)
+        }
 
-    private void init()
-    {
-        if (getDrawable() == null)
-            setImageResource(R.drawable.lib_input_selector_edit_password);
-
-        super.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                setSelected(!isSelected());
-                updateInputType();
-
-                if (mOnClickListener != null)
-                    mOnClickListener.onClick(v);
-            }
-        });
-    }
-
-    private void updateInputType()
-    {
-        if (mEditText != null)
-        {
-            final int selection = mEditText.getSelectionEnd();
-
-            if (isSelected())
-                mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            else
-                mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-            mEditText.setSelection(selection);
+        super.setOnClickListener { v ->
+            isSelected = !isSelected
+            updateInputType()
+            _onClickListener?.onClick(v)
         }
     }
 
-    @Override
-    public void setOnClickListener(View.OnClickListener l)
-    {
-        mOnClickListener = l;
+    override fun setOnClickListener(l: OnClickListener) {
+        _onClickListener = l
     }
 
-    @Override
-    public void setVisibility(int visibility)
-    {
-        if (getVisibility() != visibility)
-            super.setVisibility(visibility);
-    }
-
-    @Override
-    public void onUpdate(EditText editText)
-    {
-        if (mEditText != editText)
-        {
-            mEditText = editText;
-            updateInputType();
+    override fun setVisibility(visibility: Int) {
+        if (getVisibility() != visibility) {
+            super.setVisibility(visibility)
         }
+    }
 
-        setVisibility(editText.getVisibility());
+    override fun onUpdate(editText: EditText) {
+        if (_editText !== editText) {
+            _editText = editText
+            updateInputType()
+        }
+        visibility = editText.visibility
+    }
+
+    private fun updateInputType() {
+        val editText = _editText ?: return
+
+        val selection = editText.selectionEnd
+        if (isSelected) {
+            editText.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        } else {
+            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+        editText.setSelection(selection)
     }
 }
