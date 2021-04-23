@@ -5,19 +5,9 @@ import android.widget.EditText
 import java.util.concurrent.ConcurrentHashMap
 
 class FEditTextStateListener {
-    private val _editText: EditText
     private val _mapStateCallback = ConcurrentHashMap<StateCallback, String>()
-
-    private val _onPreDrawListener: OnPreDrawListener
     private var _isStarted = false
-
-    constructor(editText: EditText) {
-        _editText = editText
-        _onPreDrawListener = OnPreDrawListener {
-            notifyCallback()
-            true
-        }
-    }
+    private var _editText: EditText? = null
 
     /**
      * 添加状态回调
@@ -41,15 +31,26 @@ class FEditTextStateListener {
      * 开始监听
      */
     @Synchronized
-    fun start(): Boolean {
-        val observer = _editText.viewTreeObserver
-        if (observer.isAlive) {
-            observer.removeOnPreDrawListener(_onPreDrawListener)
-            observer.addOnPreDrawListener(_onPreDrawListener)
-            _isStarted = true
-            return true
+    fun start(editText: EditText?): Boolean {
+        if (_editText == editText) {
+            return false
         }
-        return false
+
+        stop()
+        _editText = editText
+
+        if (editText == null) {
+            return false
+        }
+
+        val observer = editText.viewTreeObserver
+        if (!observer.isAlive) {
+            return false
+        }
+
+        observer.addOnPreDrawListener(_onPreDrawListener)
+        _isStarted = true
+        return true
     }
 
     /**
@@ -57,19 +58,29 @@ class FEditTextStateListener {
      */
     @Synchronized
     fun stop() {
-        val observer = _editText.viewTreeObserver
-        if (observer.isAlive) {
-            observer.addOnPreDrawListener(_onPreDrawListener)
+        _editText?.let {
+            val observer = it.viewTreeObserver
+            if (observer.isAlive) {
+                observer.removeOnPreDrawListener(_onPreDrawListener)
+            }
         }
+
+        _editText = null
         _isStarted = false
+    }
+
+    private val _onPreDrawListener = OnPreDrawListener {
+        notifyCallback()
+        true
     }
 
     @Synchronized
     private fun notifyCallback() {
         if (!_isStarted) return
+        val editText = _editText ?: return
 
         for (item in _mapStateCallback.keys) {
-            item.onUpdate(_editText)
+            item.onUpdate(editText)
         }
     }
 
