@@ -40,16 +40,16 @@ class FEditTextStateListener {
      */
     @Synchronized
     fun start(editText: EditText?): Boolean {
-        if (_editText !== editText) {
+        if (_editText === editText) {
             return false
         }
-
-        stop()
-        _editText = editText
 
         if (editText == null) {
+            stop()
             return false
         }
+
+        _editText = editText
 
         val observer = editText.viewTreeObserver
         if (!observer.isAlive) {
