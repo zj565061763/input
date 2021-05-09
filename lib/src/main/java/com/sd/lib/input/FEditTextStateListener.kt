@@ -46,14 +46,13 @@ class FEditTextStateListener {
             return false
         }
 
-        _editText = editText
-
         val observer = editText.viewTreeObserver
         if (!observer.isAlive) {
             return false
         }
 
         observer.addOnPreDrawListener(_onPreDrawListener)
+        _editText = editText
         _isStarted = true
         return true
     }
