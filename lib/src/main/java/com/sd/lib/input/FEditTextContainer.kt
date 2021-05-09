@@ -39,6 +39,7 @@ class FEditTextContainer : FrameLayout {
                 _stateListener.addStateCallback(it)
             }
         }
+        _stateListener.start(_editText)
     }
 
     /**
@@ -69,7 +70,6 @@ class FEditTextContainer : FrameLayout {
     private fun saveEditText(editText: EditText) {
         if (_editText == null) {
             _editText = editText
-            _stateListener.start(editText)
         } else {
             if (_editText !== editText) {
                 throw RuntimeException("EditText has been saved")
