@@ -14,7 +14,7 @@ class FEditTextStateListener {
      */
     @Synchronized
     fun addStateCallback(callback: StateCallback) {
-        _mapStateCallback[callback] = ""
+        _mapStateCallback.put(callback, "")
     }
 
     /**
