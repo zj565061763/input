@@ -25,7 +25,7 @@ class EditTextClearImageView : ImageView, FEditTextContainer.StateView {
         }
     }
 
-    override fun setOnClickListener(l: OnClickListener) {
+    override fun setOnClickListener(l: OnClickListener?) {
         _onClickListener = l
     }
 
@@ -38,9 +38,9 @@ class EditTextClearImageView : ImageView, FEditTextContainer.StateView {
     override fun onUpdate(editText: EditText) {
         _editText = editText
         if (editText.visibility == VISIBLE &&
-                editText.isFocused &&
-                editText.isEnabled &&
-                editText.text.isNotEmpty()
+            editText.isFocused &&
+            editText.isEnabled &&
+            editText.text.isNotEmpty()
         ) {
             this.visibility = VISIBLE
         } else {

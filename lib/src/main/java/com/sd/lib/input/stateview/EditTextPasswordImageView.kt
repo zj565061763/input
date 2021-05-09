@@ -27,7 +27,7 @@ class EditTextPasswordImageView : ImageView, FEditTextContainer.StateView {
         }
     }
 
-    override fun setOnClickListener(l: OnClickListener) {
+    override fun setOnClickListener(l: OnClickListener?) {
         _onClickListener = l
     }
 
