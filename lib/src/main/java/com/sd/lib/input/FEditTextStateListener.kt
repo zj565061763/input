@@ -12,7 +12,6 @@ class FEditTextStateListener {
     /**
      * 添加状态回调
      */
-    @Synchronized
     fun addStateCallback(callback: StateCallback) {
         _mapStateCallback.put(callback, "")
     }
@@ -20,7 +19,6 @@ class FEditTextStateListener {
     /**
      * 移除状态回调
      */
-    @Synchronized
     fun removeStateCallback(callback: StateCallback?) {
         if (callback != null) {
             _mapStateCallback.remove(callback)
@@ -30,7 +28,6 @@ class FEditTextStateListener {
     /**
      * 清空状态回调
      */
-    @Synchronized
     fun clearStateCallback() {
         _mapStateCallback.clear()
     }
