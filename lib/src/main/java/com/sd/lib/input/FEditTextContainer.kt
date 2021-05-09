@@ -1,10 +1,8 @@
 package com.sd.lib.input
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 
@@ -20,7 +18,7 @@ class FEditTextContainer : FrameLayout {
     @Synchronized
     fun init() {
         reset()
-        val list = getAllViews(this)
+        val list = Utils.getAllViews(this)
 
         list.forEach {
             if (it is EditText) {
@@ -61,7 +59,7 @@ class FEditTextContainer : FrameLayout {
     override fun onViewRemoved(child: View) {
         super.onViewRemoved(child)
         _editText?.let {
-            if (!isAttached(it)) {
+            if (!Utils.isAttached(it)) {
                 // 如果EditText被移除，则重置
                 reset()
             }
@@ -90,30 +88,4 @@ class FEditTextContainer : FrameLayout {
     }
 
     interface StateView : FEditTextStateListener.StateCallback
-
-    companion object {
-        private fun getAllViews(view: View): List<View> {
-            val list = mutableListOf<View>()
-            list.add(view)
-
-            if (view is ViewGroup) {
-                val count = view.childCount
-                for (i in 0 until count) {
-                    val child = view.getChildAt(i)
-                    if (child != null) {
-                        list.addAll(getAllViews(child))
-                    }
-                }
-            }
-            return list
-        }
-
-        private fun isAttached(view: View): Boolean {
-            return if (Build.VERSION.SDK_INT >= 19) {
-                view.isAttachedToWindow
-            } else {
-                view.windowToken != null
-            }
-        }
-    }
 }
