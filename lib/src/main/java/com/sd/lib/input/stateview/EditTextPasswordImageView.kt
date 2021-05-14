@@ -42,7 +42,7 @@ class EditTextPasswordImageView : ImageView, FEditTextContainer.StateView {
             _editText = editText
             updateInputType()
         }
-        visibility = editText.visibility
+        this.visibility = editText.visibility
     }
 
     private fun updateInputType() {
