@@ -51,9 +51,10 @@ class FEditTextStateListener {
             return false
         }
 
-        observer.addOnPreDrawListener(_onPreDrawListener)
         _editText = editText
         _isStarted = true
+
+        observer.addOnPreDrawListener(_onPreDrawListener)
         return true
     }
 
