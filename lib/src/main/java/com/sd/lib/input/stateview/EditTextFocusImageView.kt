@@ -19,13 +19,13 @@ class EditTextFocusImageView : ImageView, FEditTextContainer.StateView {
     }
 
     override fun setSelected(selected: Boolean) {
-        if (isSelected != selected) {
+        if (this.isSelected != selected) {
             super.setSelected(selected)
         }
     }
 
     override fun onUpdate(editText: EditText) {
-        isSelected = editText.isFocused
-        visibility = editText.visibility
+        this.isSelected = editText.isFocused
+        this.visibility = editText.visibility
     }
 }
