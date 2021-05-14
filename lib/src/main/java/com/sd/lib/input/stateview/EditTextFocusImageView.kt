@@ -13,7 +13,7 @@ class EditTextFocusImageView : ImageView, FEditTextContainer.StateView {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     override fun setVisibility(visibility: Int) {
-        if (getVisibility() != visibility) {
+        if (this.visibility != visibility) {
             super.setVisibility(visibility)
         }
     }
