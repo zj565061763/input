@@ -30,7 +30,7 @@ class EditTextClearImageView : ImageView, FEditTextContainer.StateView {
     }
 
     override fun setVisibility(visibility: Int) {
-        if (getVisibility() != visibility) {
+        if (this.visibility != visibility) {
             super.setVisibility(visibility)
         }
     }
