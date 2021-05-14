@@ -18,8 +18,8 @@ class FEditTextContainer : FrameLayout {
     @Synchronized
     fun init() {
         reset()
-        val list = Utils.getAllViews(this)
 
+        val list = Utils.getAllViews(this)
         list.forEach {
             if (it is EditText) {
                 saveEditText(it)
