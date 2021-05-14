@@ -60,7 +60,9 @@ class FEditTextContainer : FrameLayout {
     override fun onViewRemoved(child: View) {
         super.onViewRemoved(child)
         _editText?.let {
-            if (!Utils.isAttached(it)) {
+            if (Utils.isAttached(it)) {
+                // 检查child中是否有StateView需要移除
+            } else {
                 // 如果EditText被移除，则重置
                 reset()
             }
